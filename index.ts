@@ -8,11 +8,8 @@ import registerProject from './routes/registerProject'
 import dotenv from 'dotenv'
 dotenv.config()
 
-
-// Initialize database
-import db from './db/init'
-db.sync()
-
+import db from './db/access'
+db.sync();
 
 // Instantiate Fastify with some config
 const fastify = Fastify({
@@ -21,7 +18,7 @@ const fastify = Fastify({
 
 
 // Route to register a new project
-fastify.get('/api/register', registerProject)
+fastify.get('/api/registerProject', registerProject)
 // Route to add a HWID to a project
 fastify.get('/api/addHWID', addHWID)
 // Route to check auth

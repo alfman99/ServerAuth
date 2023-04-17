@@ -1,16 +1,28 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import db from '../db/access'
 
 import { FastifyRequest } from "fastify/types/request";
 import { FastifyReply } from "fastify/types/reply";
 
-import db from "../db/init";
+
 import { type Proyecto } from "../interfaces";
 
 
 // Required params:
+//    API_KEY: string; // API_KEY
 //    id: string; // Project ID
-//    hwid: string; // HWID to check
-const addHWID = async (req: FastifyRequest, res: FastifyReply) => {
+//    hwid: string; // HWID to add
+
+const addHWID = (req: FastifyRequest, res: FastifyReply) => {
+
+  // Get API_KEY from query
+  const API_KEY = (req.query as { API_KEY: string }).API_KEY;
+  // Check if API_KEY is provided
+  if (!API_KEY) return res.status(400).send();
+  // Check if API_KEY is correct
+  if (API_KEY !== process.env.API_KEY) return res.status(401).send();
+
+
   // Get project ID from query
   const id = (req.query as { id: string }).id;
   // Check if id is provided
@@ -27,25 +39,14 @@ const addHWID = async (req: FastifyRequest, res: FastifyReply) => {
   const hwid = (req.query as { hwid: string }).hwid;
   // Check if HWID is provided
   if (!hwid) return res.status(400).send();
-  // Check if HWID is registered
-  if (!project.hwids.includes(hwid)) return res.status(401).send();
-
-  // Parse key and IV from database to Uint8Array
-  const a = JSON.parse(project.iv as unknown as string) as { [key: string]: number };
-  const b = JSON.parse(project.key as unknown as string) as { [key: string]: number };
-
-  // Generate the return value in the correct format
-  const retVal = new Uint8Array(32);
-  for(let i = 0; i < Object.keys(a).length; i++) {
-    retVal[i] = a[i]!;
-  }
-  for(let i = 0; i < Object.keys(b).length; i++) {
-    retVal[16+i] = b[i]!;
+  // Add HWID to database
+  if (!project.hwids.includes(hwid)) {
+    project.hwids.push(hwid);
+    db.set(id, project);
   }
 
-
-  // Return the key and IV
-  return res.status(200).send(Buffer.from(retVal));
+  // Return status code 200
+  return res.status(200).send();
 };
 
 export default addHWID;

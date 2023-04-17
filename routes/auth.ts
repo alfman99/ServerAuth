@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import db from '../db/access'
+
 import { FastifyRequest } from "fastify/types/request";
 import { FastifyReply } from "fastify/types/reply";
 
 import { type Proyecto } from "../interfaces";
-import db from "../db/init";
 
 
 // Required params:

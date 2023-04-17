@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import db from '../db/access'
 
 import { FastifyRequest } from "fastify/types/request";
 import { FastifyReply } from "fastify/types/reply";
 
 import { randomBytes } from "crypto";
 
-import JSONdb from "simple-json-db";
 import { type Proyecto } from "../interfaces";
 
 
@@ -15,7 +15,6 @@ import { type Proyecto } from "../interfaces";
 //    id: string; // Project ID
 
 const registerProject = (req: FastifyRequest, res: FastifyReply) => {
-  const db = new JSONdb("db.json");
 
   // Get API_KEY from query
   const API_KEY = (req.query as { API_KEY: string }).API_KEY;
