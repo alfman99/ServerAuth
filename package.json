@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "ts-node index.ts",
-    "watch": "nodemon index.ts"
+    "watch": "nodemon index.ts --ignore db/"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +17,8 @@
     "typescript": "^5.0.4"
   },
   "dependencies": {
-    "fastify": "^4.15.0"
+    "dotenv": "^16.0.3",
+    "fastify": "^4.15.0",
+    "simple-json-db": "^2.0.0"
   }
 }
