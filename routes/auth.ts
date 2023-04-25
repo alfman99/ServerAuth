@@ -23,7 +23,7 @@ const auth = (req: FastifyRequest, res: FastifyReply) => {
   let idDecoded = Buffer.from(id, "base64")
   // Add null byte to the end of the id
   idDecoded = Buffer.concat([idDecoded, Buffer.from([0])])
-
+  console.log("Project ID: " + idDecoded.toString("hex"))
 
   // Get project from database
   const project = db.get(idDecoded.toString("hex")) as Proyecto | undefined;
@@ -35,6 +35,8 @@ const auth = (req: FastifyRequest, res: FastifyReply) => {
   const hwid = (req.query as { hwid: string }).hwid;
   // Check if HWID is provided
   if (!hwid) return res.status(400).send();
+  console.log("HWID: " + hwid)
+
   // Check if HWID is registered
   if (!project.hwids.includes(hwid)) return res.status(401).send();
 

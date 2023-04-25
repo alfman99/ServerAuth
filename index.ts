@@ -12,9 +12,7 @@ import db from './db/access'
 db.sync();
 
 // Instantiate Fastify with some config
-const fastify = Fastify({
-  logger: true
-})
+const fastify = Fastify()
 
 
 // Route to register a new project
