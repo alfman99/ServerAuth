@@ -20,7 +20,7 @@ const addHWID = (req: FastifyRequest, res: FastifyReply) => {
   // Check if API_KEY is provided
   if (!API_KEY) return res.status(400).send();
   // Check if API_KEY is correct
-  if (API_KEY !== process.env.API_KEY) return res.status(401).send();
+  if (API_KEY !== process.env.API_KEY) return res.status(400).send();
 
 
   // Get project ID from query
@@ -32,7 +32,7 @@ const addHWID = (req: FastifyRequest, res: FastifyReply) => {
   // Get project from database
   const project = db.get(id) as Proyecto | undefined;
   // Check if project exists
-  if (!project) return res.status(404).send();
+  if (!project) return res.status(400).send();
 
 
   // Get HWID from query

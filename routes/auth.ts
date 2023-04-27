@@ -28,7 +28,7 @@ const auth = (req: FastifyRequest, res: FastifyReply) => {
   // Get project from database
   const project = db.get(idDecoded.toString("hex")) as Proyecto | undefined;
   // Check if project exists
-  if (!project) return res.status(404).send();
+  if (!project) return res.status(400).send();
 
 
   // Get HWID from query
@@ -38,7 +38,7 @@ const auth = (req: FastifyRequest, res: FastifyReply) => {
   console.log("HWID: " + hwid)
 
   // Check if HWID is registered
-  if (!project.hwids.includes(hwid)) return res.status(401).send();
+  if (!project.hwids.includes(hwid)) return res.status(400).send();
 
   // Parse key and IV from database to Uint8Array
   const key = parseUint8Array(project.key as unknown as string);

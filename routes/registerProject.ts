@@ -19,9 +19,9 @@ const registerProject = (req: FastifyRequest, res: FastifyReply) => {
   // Get API_KEY from query
   const API_KEY = (req.query as { API_KEY: string }).API_KEY;
   // Check if API_KEY is provided
-  if (!API_KEY) return res.status(400).send("a");
+  if (!API_KEY) return res.status(400).send();
   // Check if API_KEY is correct
-  if (API_KEY !== process.env.API_KEY) return res.status(401).send();
+  if (API_KEY !== process.env.API_KEY) return res.status(400).send();
 
 
   // Generate project id with exactly 20 characters untill there is no project with the same id
