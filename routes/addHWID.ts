@@ -44,6 +44,9 @@ const addHWID = (req: FastifyRequest, res: FastifyReply) => {
     project.hwids.push(hwid);
     db.set(id, project);
   }
+  else {
+    return res.status(400).send();
+  }
 
   // Return status code 200
   return res.status(200).send();
